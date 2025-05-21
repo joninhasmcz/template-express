@@ -6,9 +6,20 @@ dotenv.config();
 
 
 const connectionMongoDB = async () => {
+  let uri = process.env.MONGODB_URI;
+
+  const runningInDocker = process.env.DOCKER === 'true';
+
+  if (runningInDocker) {
+    uri = 'mongodb://root:2326252@mongo-db:27017/template_express?authSource=admin';
+  }
+
+  if (!uri) {
+      logger.error("MongoDB URI not found");
+      process.exit(1);
+  }
   try {
-    console.log("PROCESS ENV: ", process.env.MONGODB_URI);
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(uri);
     logger.info("MongoDB Connected!");
   } catch (error) {
     logger.error("MongoDB No Connected: " + error.message);

@@ -7,7 +7,6 @@ const connectionMongoDB = require('./config/db');
 const logger = require('./utils/logger');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
 app.use(cors());
@@ -19,7 +18,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.use('/api/empregados', empregadoRoutes);
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     logger.error(err.stack);
     res.status(500).json({
         erro: 'Erro interno do servidor',
