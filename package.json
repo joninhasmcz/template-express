@@ -7,6 +7,7 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.js",
     "format": "prettier --write src/**/*.js"
   },

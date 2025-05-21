@@ -10,7 +10,10 @@ beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const uri = mongoServer.getUri();
 
-    await mongoose.createConnection(uri).asPromise();
+    await mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
 });
 
 afterAll(async () => {
@@ -24,26 +27,24 @@ afterEach(async () => {
 
 describe("Empregado Rotas Api", () => {
     it("Deve criar um novo empregado", async () => {
-        const res = await request(app)
-            .post("/api/empregados")
-            .send({
+        const res = await request(app).post("/api/empregados").send({
                 nome: "João",
-                cargo: "Desenvolvedor",
-                salario: 5000,
+                cargo: "Diarista",
+                salario: "5000",
             });
-        expect(res.statusCode).toBe(201);
+        expect(res.statusCode). toBe(201);
         expect(res.body.nome).toBe("João");
     });
     it("Deve listar todos os empregados", async () => {
         await Empregado.create({
             nome: "Maria",
             cargo: "Gerente",
-            salario: 7000,
+            salario: "7000",
         });
         await Empregado.create({
             nome: "Pedro",
-            cargo: "Analista",
-            salario: 6000,
+            cargo: "Diarista",
+            salario: "6000",
         });
 
         const res = await request(app).get("/api/empregados");

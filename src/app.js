@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
 const empregadoRoutes = require('./routes/empregado');
@@ -27,6 +26,4 @@ app.use((err, req, res, next) => {
     })
 })
 
-app.listen(PORT, () => {
-    logger.info(`Servidor rodando na port ${PORT}`);
-})
+module.exports = app;
